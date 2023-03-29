@@ -16,7 +16,7 @@
 <body>
 	<header>
 		<!-- ログイン者がいない時のヘッダー -->
-		<div th:if="${username == null}"
+		<div th:if="${#session.getAttribute('user') == null}"
 			class="d-flex justify-content-center align-items-center h-100">
 			<div id="system-title">
 				<h2>予約システム</h2>
@@ -24,20 +24,24 @@
 		</div>
 
 		<!-- ログイン者がいる時のヘッダー -->
-		<div th:if="${username != null}"
-			class="d-flex justify-content-between align-items-center h-100">
+		<div th:if="${#session.getAttribute('user') != null}"
+			class="d-flex justify-content-between align-items-center h-100 mx-3">
+
 			<div class="login-username">
-				<span th:text="*{username}" class="p-0 m-0">&nbsp;さん</span>
+				<span th:text="${session['username']}" class="p-0 m-0"></span>&nbsp;さん
 			</div>
+
 			<div id="system-title" class="justify-content-center">
 				<h2>予約システム</h2>
 			</div>
-		</div>
-		<!-- 
+
 			<div class="config">
 				<a th:href="@{/logout}" class="logout fs-6 justify-content-right">ログアウト</a>
 			</div>
-			 -->
+
+		</div>
+
+
 	</header>
 	<div layout:fragment="content"></div>
 </body>

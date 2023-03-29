@@ -21,16 +21,26 @@ header {
 	text-align: center;
 }
 
-.input {
+.input,
+.select {
 	border-radius: 9999px;
 	border-color: #ccc;
 	height: 5vh;
 }
 
-.input:hover {
+.input:hover,
+.select:hover,
+.check:hover {
 	border: 1px solid #0094ff;
 	background-color: #cbe9ff;
 	transition: 0.2s;
+}
+
+.select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	text-indent: 3%;
 }
 
 .btn {
@@ -45,4 +55,26 @@ header {
 	border-radius: 20px;
 	height: 10vh;
 	width: 30%;
+}
+
+#flush-success {
+	color: #155724;
+	background-color: #D4EDDA;
+	height: 10vh;;
+}
+
+#flush-danger {
+	color: #721C24;
+	background-color: #F8D7DA;
+	height: 10vh;
+}
+
+table {
+	-ms-writing-mode: tb-lr;
+	writing-mode: vertical-lr;
+}
+
+th,
+td {
+	writing-mode: horizontal-tb;
 }

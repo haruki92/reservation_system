@@ -1,0 +1,46 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<main layout:fragment="content">
+		<h2 class="text-center my-5">以下の内容で登録してよろしいですか？</h2>
+		<table class="mx-auto w-50 h-75 fs-5 mb-5">
+			<thead class="w-50">
+				<tr>
+					<th>お名前</th>
+					<th>パスワード</th>
+					<th>メールアドレス</th>
+					<th>電話番号</th>
+					<th>性別</th>
+					<th>年収</th>
+					<th>業種</th>
+				</tr>
+			</thead>
+			<tbody class="w-50">
+				<tr>
+					<td th:text="${#session.getAttribute('user').username}"></td>
+					<td th:text="${#session.getAttribute('user').password}"></td>
+					<td th:text="${#session.getAttribute('user').email}"></td>
+					<td th:text="${#session.getAttribute('user').phone}"></td>
+					<td
+						th:text="${T(com.example.demo.util.Type).GENDERS.get(#session.getAttribute('user').gender)}"></td>
+					<td
+						th:text="${T(com.example.demo.util.Income).INCOME.get(#session.getAttribute('user').income)}"></td>
+					<td
+						th:text="${T(com.example.demo.util.Job).INDUSTRY.get(#session.getAttribute('user').industry)}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<form th:action="@{/register}" class="w-50 mx-auto text-center mb-5"
+			method="post">
+			<button type="submit" class="btn btn-primary">この内容で登録する</button>
+		</form>
+	</main>
+</body>
+</html>

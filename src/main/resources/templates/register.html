@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="container w-50">
+			<h2 class="text-center my-5">会員登録</h2>
+			<form th:action="@{/confirm}" th:object="${user}" method="post"
+				novalidate>
+
+				<div class="form-group mb-5">
+					<label for="username" class="form-label">お名前</label> <input
+						type="text" class="form-control input" th:errorclass="is-invalid"
+						th:field="*{username}">
+					<div class="invalid-feedback" th:errors="*{username}"></div>
+				</div>
+
+				<div class="form-group mb-5">
+					<label for="password" class="form-label">パスワード <span
+						class="text-black-50">※ 6 ～ 64文字で入力してください</span></label> <input
+						type="password" class="form-control input"
+						th:errorclass="is-invalid" th:field="*{password}">
+					<div class="invalid-feedback" th:errors="*{password}"></div>
+				</div>
+
+				<label class="mb-5">性別</label>
+				<div class="d-flex justify-content-between">
+					<div class="form-check mb-5 w-25"
+						th:each="gender:${T(com.example.demo.util.Type).GENDERS}">
+						<input type="radio" class="form-check-input check"
+							th:field="*{gender}" th:value="${gender.key}"> <label
+							class="form-check-label" th:for="${#ids.prev('gender')}"
+							th:text="${gender.value}"></label>
+					</div>
+				</div>
+
+				<div class="form-group mb-5">
+					<label for="email" class="form-label">メールアドレス</label> <input
+						type="email" name="email" class="form-control input"
+						th:errorclass="is-invalid" th:field="*{email}"
+						placeholder="（例）example@example.com">
+					<div class="invalid-feedback" th:errors="*{email}"></div>
+				</div>
+
+				<div class="form-group mb-5">
+					<label for="phone" class="form-label">電話番号（半角 ハイフン無し）</label> <input
+						type="email" name="email" class="form-control input"
+						th:errorclass="is-invalid" th:field="*{phone}"
+						placeholder="（例）01012345678">
+					<div class="invalid-feedback" th:errors="*{phone}"></div>
+				</div>
+
+				<label class="mb-5">年収</label>
+				<div>
+					<div class="mb-5 w-100 select-wrap">
+						<select th:field="*{income}" class="select w-100"
+							th:errorclass="is-invalid">
+							<option th:value="0">選択してください</option>
+							<option
+								th:each="income:${T(com.example.demo.util.Income).INCOME}"
+								th:value="${income.key}" th:text="${income.value}"></option>
+						</select>
+						<div class="invalid-feedback" th:errors="*{income}"></div>
+					</div>
+				</div>
+
+				<label class="mb-5">業種</label>
+				<div>
+					<div class="mb-5 w-100 select-wrap">
+						<select th:field="*{industry}" class="select w-100"
+							th:errorclass="is-invalid">
+							<option th:value="0">選択してください</option>
+							<option
+								th:each="industry:${T(com.example.demo.util.Job).INDUSTRY}"
+								th:value="${industry.key}" th:text="${industry.value}"></option>
+						</select>
+						<div class="invalid-feedback" th:errors="*{industry}"></div>
+					</div>
+				</div>
+
+				<div class="text-center">
+					<button class="btn btn-primary w-50 mx-auto mb-5" type="submit">確認画面に進む</button>
+				</div>
+
+			</form>
+		</div>
+	</main>
+</body>
+</html>
