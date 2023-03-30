@@ -1,51 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 </head>
+
 <body>
-	<!-- コンテンツの表示 -->
-	<main layout:fragment="content" class="bg-image">
-		<div class="container">
-			<div class="row align-items-center justify-content-center">
+    <!-- コンテンツの表示 -->
+    <main layout:fragment="content" class="bg-image">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
 
-				<p th:if="${param.register}" id="flush-success"
-					class="d-flex align-items-center justify-content-center w-50 fs-5 mt-5">登録が完了しました。</p>
+                <p th:if="${param.register}" id="flush-success"
+                    class="d-flex align-items-center justify-content-center w-50 fs-5 mt-5">登録が完了しました。</p>
+                <p th:if="${param.error}" id="flush-danger"
+                    class="d-flex align-items-center justify-content-center w-50 fs-5 mt-5">ユーザ名かパスワードが間違っています。</p>
+                <p th:if="${param.logout}" id="flush-success"
+                    class="d-flex align-items-center justify-content-center w-50 fs-5 mt-5">ログアウトしました。</p>
 
-				<h2 class="my-5 text-center">ログイン画面</h2>
+                <h2 class="my-5 text-center">ログイン画面</h2>
 
-				<form th:action="@{/login}" method="post" class="p=0">
+                <form th:action="@{/login}" method="post" class="p=0">
 
-					<div class="form-group mb-5 w-25 mx-auto">
-						<label for="username">ユーザ名</label> <input type="text"
-							name="username" class="form-control input"
-							placeholder="ユーザ名を入力してください">
-					</div>
+                    <div class="form-group mb-5 w-25 mx-auto">
+                        <label for="username">ユーザ名</label> <input type="text" name="username" class="form-control input"
+                            placeholder="ユーザ名を入力してください">
+                    </div>
 
-					<div class="form-group mb-5 w-25 mx-auto">
-						<label for="password">パスワード</label> <input type="password"
-							name="password" class="form-control input"
-							placeholder="パスワードを入力してください">
-					</div>
+                    <div class="form-group mb-5 w-25 mx-auto">
+                        <label for="password">パスワード</label> <input type="password" name="password"
+                            class="form-control input" placeholder="パスワードを入力してください">
+                    </div>
 
-					<div class="text-center mb-5">
-						<input type="checkbox" name="remember-me"> <label>ログインしたままにする</label>
-					</div>
+                    <div class="text-center mb-5">
+                        <input type="checkbox" name="remember-me"> <label>ログインしたままにする</label>
+                    </div>
 
-					<div class="row justify-content-center">
-						<button type="submit" class="btn btn-primary w-25 mx-auto mb-5">ログイン</button>
-					</div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary w-25 mx-auto mb-5">ログイン</button>
+                    </div>
 
-				</form>
+                </form>
 
-				<div class="mx-auto text-center mb-5">
-					<a th:href="@{/register}">新規会員登録はこちら</a>
-				</div>
-				
-			</div>
-		</div>
-	</main>
+                <div class="mx-auto text-center mb-5">
+                    <a th:href="@{/register}">新規会員登録はこちら</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>
