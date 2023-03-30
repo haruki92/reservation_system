@@ -1,48 +1,48 @@
 <!DOCTYPE>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
-	rel="stylesheet">
+    rel="stylesheet">
 <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}"
-	rel="stylesheet">
+    rel="stylesheet">
 <link th:href="@{/css/app.css}" rel="stylesheet">
 
 <title>予約システム</title>
 </head>
 <body>
-	<header>
-		<!-- ログイン者がいない時のヘッダー -->
-		<div th:if="${#session.getAttribute('user') == null}"
-			class="d-flex justify-content-center align-items-center h-100">
-			<div id="system-title">
-				<h2>予約システム</h2>
-			</div>
-		</div>
+    <header>
+        <!-- ログイン者がいない時のヘッダー -->
+        <div th:if="${#httpServletRequest.getSession().getAttribute('username') == null}"
+            class="d-flex justify-content-center align-items-center h-100">
+            <div id="system-title">
+                <h2>予約システム</h2>
+            </div>
+        </div>
 
-		<!-- ログイン者がいる時のヘッダー -->
-		<div th:if="${#session.getAttribute('user') != null}"
-			class="d-flex justify-content-between align-items-center h-100 mx-3">
+        <!-- ログイン者がいる時のヘッダー -->
+        <div th:if="${#httpServletRequest.getSession().getAttribute('username') != null}"
+            class="d-flex justify-content-between align-items-center h-100 mx-3">
 
-			<div class="login-username">
-				<span th:text="${session['username']}" class="p-0 m-0"></span>&nbsp;さん
-			</div>
+            <div class="login-username">
+                <span th:text="${session['username']}" class="p-0 m-0"></span>&nbsp;さん
+            </div>
 
-			<div id="system-title" class="justify-content-center">
-				<h2>予約システム</h2>
-			</div>
+            <div id="system-title" class="justify-content-center">
+                <h2>予約システム</h2>
+            </div>
 
-			<div class="config">
-				<a th:href="@{/logout}" class="logout fs-6 justify-content-right">ログアウト</a>
-			</div>
+            <div class="config">
+                <a th:href="@{/logout}" class="logout fs-6 justify-content-right">ログアウト</a>
+            </div>
 
-		</div>
+        </div>
 
 
-	</header>
-	<div layout:fragment="content"></div>
+    </header>
+    <div layout:fragment="content"></div>
 </body>
 </html>
