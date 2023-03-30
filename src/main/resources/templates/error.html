@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+  <meta charset="UTF-8" th:remove="tag">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>予約システム: エラーページ</title>
+</head>
+<body>
+  <main layout:fragment="content">
+  <div class="container vh-100">
+      <div class="container-fruid h-100">
+          <div class="row h-50 align-items-center justify-content-center">
+              <!-- エラーメッセージ -->
+              <div th:replace="~{fragments/message :: error}">
+              </div>
+          </div>
+      </div>
+  </div>
+  </main>
+</body>
+</html>

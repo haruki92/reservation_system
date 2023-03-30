@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+  <meta charset="UTF-8" th:remove="tag">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div th:fragment="error">
+      <div class="text-center">
+          <div class="display-1" th:text="${status}"></div>
+          <div class="text-muted mb-4" th:text="${error}"></div>
+          <div class="text-muted mb-5">ページを表示できません</div>
+          
+          <a th:if="${#httpServletRequest.getSession().getAttribute('username') == null}" th:href="@{/login}">&larr; ログイン画面に戻る</a>
+          <a th:if="${#httpServletRequest.getSession().getAttribute('username') != null}" th:href="@{/logout}">&larr; ログイン画面に戻る</a>
+      </div>
+  </div>
+</body>
+</html>
