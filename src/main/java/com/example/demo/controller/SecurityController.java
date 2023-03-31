@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,11 @@ public class SecurityController {
 	public String success(Authentication loginUser, HttpSession session) {
 		session.setAttribute("username", loginUser.getName());
 		session.setAttribute("authority", loginUser.getAuthorities());
+
+		//		ログインユーザの権限情報に"ADMIN"が含まれている場合、admin/index.htmlへ画面遷移する
+		if (loginUser.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+			return "admin/index";
+		}
 
 		return "user";
 	}
