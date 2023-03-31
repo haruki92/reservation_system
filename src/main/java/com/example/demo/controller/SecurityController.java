@@ -53,14 +53,11 @@ public class SecurityController {
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setDeleteFlag(0);
+		user.setAuthority(Authority.USER); // authorityをuserに
 
-		//		管理者の場合
-		if (user.isAdmin()) {
-			user.setAuthority(Authority.ADMIN); // authorityをadminに
-		} else {
-			//			そうでない場合は
-			user.setAuthority(Authority.USER); // authorityをuserに
-		}
+		//		セッションからuserオブジェクトを削除する
+		session.removeAttribute("user");
+
 		//		 ユーザ情報を保存
 		userRepository.save(user);
 
@@ -68,7 +65,7 @@ public class SecurityController {
 	}
 
 	@GetMapping("/confirm")
-	public String getConfirm(HttpSession session) {
+	public String getConfirm() {
 		return "confirm";
 	}
 
@@ -77,6 +74,12 @@ public class SecurityController {
 		if (result.hasErrors()) {
 			return "register";
 		}
+
+		//		性別が未選択の場合、"選択しない"をセット
+		if (user.getGender() == null) {
+			user.setGender(0);
+		}
+
 		session.setAttribute("user", user);
 
 		return "redirect:/confirm";

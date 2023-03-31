@@ -36,14 +36,14 @@ public class User {
 	/**
 	 * ユーザ名
 	 */
-	@Size(min = 2, max = 40)
+	@Size(min = 2, max = 40, message = "ユーザ名を入力してください")
 	@UniqueLogin // 自作バリデーション
 	private String username;
 
 	/**
 	 * パスワード
 	 */
-	@Size(min = 6, max = 64)
+	@Size(min = 6, max = 64, message = "6 ~ 64文字でパスワードを入力してください")
 	private String password;
 
 	/**
@@ -59,7 +59,7 @@ public class User {
 	/**
 	 * メールアドレス
 	 */
-	@NotBlank
+	@NotBlank(message = "メールアドレスを入力してください")
 	@Email
 	@Size(max = 254)
 	private String email;
@@ -67,7 +67,7 @@ public class User {
 	/**
 	 * 電話番号
 	 */
-	@NotBlank
+	@NotBlank(message = "電話番号を入力してください")
 	@Pattern(regexp = "[0-9-]*", message = "半角数字で入力してください")
 	private String phone;
 
