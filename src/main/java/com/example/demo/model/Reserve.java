@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,12 +35,14 @@ public class Reserve {
 	/**
 	 * 予約日
 	 */
+	@NotNull(message = "予約日を入力してください")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate reserveDate;
 
 	/**
 	 * 予約時間
 	 */
+	@NotNull(message = "予約時間を入力してください")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime reserveTime;
 

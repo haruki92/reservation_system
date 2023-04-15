@@ -1,13 +1,17 @@
 package com.example.demo.config;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.model.Shop;
 import com.example.demo.model.User;
+import com.example.demo.repository.ShopRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.util.Authority;
 
@@ -19,6 +23,7 @@ import lombok.var;
 public class DataLoader implements ApplicationRunner {
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
+	private final ShopRepository shopRepository;
 
 	//	Beanの実行に使用される
 	@Override
@@ -43,6 +48,15 @@ public class DataLoader implements ApplicationRunner {
 			userRepository.save(user);
 		}
 
+		//		店舗側の設定
+		var shop = new Shop();
+		shop.setReservableDate(7); // 予約可能日時 7 日後
+		shop.setStartTime(LocalTime.of(10, 0)); // 予約開始時間 10:00 ～
+		shop.setEndTime(LocalTime.of(20, 0)); // 予約終了時間 ～ 20:00
+		shop.setStoreHoliday(DayOfWeek.SUNDAY); // 店休日 日曜日
+		if (shopRepository.findById(1).isEmpty()) {
+			shopRepository.save(shop);
+		}
 	}
 
 }

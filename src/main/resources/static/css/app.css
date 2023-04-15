@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+body {
+	margin: 0;
+	padding: 0;
+}
+
 header {
 	height:10vh;
 	background: #002434;
@@ -43,6 +48,11 @@ header {
 	text-indent: 3%;
 }
 
+a.btn {
+	line-height: 7vh;
+	padding: 0;
+}
+
 .btn {
 	height: 7vh;
 	font-size: 1.3rem;
@@ -50,23 +60,42 @@ header {
 	border-radius: 9999px;
 }
 
+#details {
+	height: fit-content;
+}
+
+#remarks {
+	min-height: 20vh;
+}
+
 #flush {
 	border: 1px solid #ccc;
 	border-radius: 20px;
 	height: 10vh;
 	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #flush-success {
 	color: #155724;
 	background-color: #D4EDDA;
 	height: 10vh;;
+	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #flush-danger {
 	color: #721C24;
 	background-color: #F8D7DA;
 	height: 10vh;
+	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 table {

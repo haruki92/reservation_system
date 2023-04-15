@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,12 +9,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.model.Reserve;
 import com.example.demo.model.User;
+import com.example.demo.repository.ReserveRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.util.Authority;
 
@@ -24,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityController {
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
+	private final ReserveRepository reserveRepository;
 
 	@GetMapping("/login")
 	public String login() {
@@ -31,13 +36,24 @@ public class SecurityController {
 	}
 
 	@GetMapping("/")
-	public String success(Authentication loginUser, HttpSession session) {
+	public String success(Authentication loginUser, HttpSession session, Model model) {
 		session.setAttribute("username", loginUser.getName());
 		session.setAttribute("authority", loginUser.getAuthorities());
 
 		//		ログインユーザの権限情報に"ADMIN"が含まれている場合、admin/index.htmlへ画面遷移する
 		if (loginUser.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
 			return "admin/index";
+		}
+		User user = (User) userRepository.findByUsername(loginUser.getName()).get();
+
+		//		論理削除されていない予約情報を取得
+		Optional<Reserve> rs = reserveRepository.findNotDeletedReserve(user.getId());
+
+		//		isPresent() = 中身がある = 予約情報を取得できた時にセッションとモデルにセット
+		if (rs.isPresent()) {
+			Reserve reserve = rs.get();
+			session.setAttribute("reserve", reserve);
+			model.addAttribute("reserve", reserve);
 		}
 
 		return "user";

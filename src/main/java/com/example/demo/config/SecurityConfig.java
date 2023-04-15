@@ -45,8 +45,8 @@ public class SecurityConfig {
 				.formLogin(login -> login
 						//						ログイン時のURLを設定
 						.loginPage("/login")
-						//						認証後にリダイレクトする場所を指定
-						.defaultSuccessUrl("/")
+						//						ログイン成功時の遷移先指定、第二引数をtrueにすると必ず第一引数ページに遷移する
+						.defaultSuccessUrl("/", true)
 						.permitAll())
 				//				ログアウト時の設定
 				.logout(logout -> logout

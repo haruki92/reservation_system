@@ -1,0 +1,54 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>予約システム： 予約申し込みページ</title>
+
+<script th:src="@{/js/reservation.js}"></script>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="w-75 mx-auto">
+			<h2 class="text-center my-5">予約申し込み</h2>
+
+			<form th:action="@{/reserve/confirm}" method="post"
+				th:object="${reserve}" novalidate>
+				<div class="mb-5 w-100 select-wrap mx-auto form-group">
+					<label for="${date}" class="mb-3">日付</label> <select
+						class="select mx-auto w-100" th:field="*{reserveDate}"
+						th:errorclass="is-invalid" onchange="getAvailableTimes()">
+						<option value="" id="default">日付を選択してください</option>
+						<option th:each="reserveDate : ${#session.getAttribute('dates')}"
+							th:text="${#temporals.format(reserveDate, 'yyyy年MM月dd日')}"
+							th:value="${{reserveDate}}"></option>
+					</select>
+					<div class="invalid-feedback" th:error="*{reserveDate}"></div>
+				</div>
+
+				<div class="mb-5 w-100 select-wrap mx-auto form-group">
+					<label for="${time}" class="mb-3">予約可能時間</label> <select
+						class="select mx-auto w-100" th:field="*{reserveTime}"
+						th:errorclass="is-invalid">
+						<option value="">日付を選択した後に予約可能な時間が表示されます</option>
+					</select>
+					<div class="invalid-feedback" th:error="*{reserveTime}"></div>
+				</div>
+
+				<label for="remarks">備考欄</label>
+				<div class="form-group w-100 mx-auto my-5 h-50">
+					<textarea th:field="*{remarks}" class="w-100 h-100"
+						placeholder="相談内容をご自由に記入してください"></textarea>
+				</div>
+
+				<div class="text-center">
+					<button class="btn btn-primary w-50 mx-auto mb-5" type="submit">確認画面に進む</button>
+				</div>
+			</form>
+		</div>
+	</main>
+
+</body>
+</html>

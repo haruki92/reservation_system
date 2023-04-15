@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,12 +34,12 @@ public class Shop {
 	/**
 	 * 予約開始時間
 	 */
-	private Time startTime;
+	private LocalTime startTime;
 
 	/**
 	 * 予約終了時間
 	 */
-	private Time endTime;
+	private LocalTime endTime;
 
 	/**
 	 * 店休日

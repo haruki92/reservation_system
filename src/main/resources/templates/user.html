@@ -9,11 +9,52 @@
 <body>
 	<main layout:fragment="content">
 		<div class="container">
-			<p id="flush"
-				class="d-flex align-items-center justify-content-center js-5 my-5 mx-auto">
-				ようこそ&nbsp;<span th:text="${session['username']}"
-					class="mx-3"></span>&nbsp;さん
+
+			<p id="flush" class="js-5 my-5 mx-auto">
+				ようこそ&nbsp;<span th:text="${session['username']}" class="mx-3"></span>&nbsp;さん
 			</p>
+			<p th:if="${reserved != null}" id="flush-success"
+				class="js-5 my-5 mx-auto" th:text="${reserved}"></p>
+
+			<div th:if="${#session.getAttribute('reserve') == null}"
+				class="text-center mx-auto">
+				<a th:href="@{/reserve}" class="btn btn-primary my-5 w-25">予約を申し込む</a>
+			</div>
+
+			<div th:if="${#session.getAttribute('reserve') != null}">
+
+				<div id="details" class="p-5 border mx-auto w-50"
+					th:object="${reserve}">
+
+					<div class="wrapper w-75 mx-auto ">
+						<p>日時</p>
+						<div class="d-flex justify-content-start">
+							<p th:text="*{reserveDate}"></p>
+							&nbsp;&nbsp;
+							<p th:text="*{reserveTime}"></p>
+						</div>
+					</div>
+
+					<div class="wrapper w-75 mx-auto">
+						<p>お名前</p>
+						<p>
+							<span th:text="*{user_id.username}"></span>&nbsp;様
+						</p>
+					</div>
+
+					<div class="wrapper w-75 mx-auto">
+						<p>備考欄</p>
+						<p th:text="*{remarks}" id="remarks"
+							class="border mx-auto w-100 p-3"></p>
+					</div>
+
+				</div>
+
+				<div class="mx-auto text-center">
+					<a th:href="@{/reserve/edit}" class="btn btn-primary my-5 w-25">予約内容を変更する</a>
+				</div>
+			</div>
+
 		</div>
 	</main>
 </body>
