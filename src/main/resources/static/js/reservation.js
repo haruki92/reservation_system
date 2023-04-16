@@ -2,13 +2,16 @@
  * 予約日を取得し、/api/availableTimesでエンドポイントにリクエストを送信する
  */
 function getAvailableTimes() {
+	/** reserveDateというIDをもった要素を取得 */
 	let selectedDate = document.getElementById("reserveDate").value;
+
+	/** @RequestMapping("/api")が付与されたクラスの@GetMapping("availableTimes")が付与されたメソッドを呼び出す */
 	let url = "http://localhost:8080/api/availableTimes?date=" + selectedDate;
 
 	/** XMLHttpRequestオブジェクトを作成 */
 	let request = new XMLHttpRequest();
 
-	/** リクエストを開始する HTTPメソッド リクエスト先のURL 非同期でリクエストを送信する = true  */
+	/** リクエストを開始する HTTPメソッド, リクエスト先のURL, 非同期でリクエストを送信する = true  */
 	request.open("GET", url, true);
 
 	/** リクエストヘッダにJSON形式でデータを送信する */

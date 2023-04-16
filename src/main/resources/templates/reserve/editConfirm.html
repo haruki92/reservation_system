@@ -1,0 +1,36 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="container">
+			<h2 class="text-center my-5">以下の内容で予約を変更してもよろしいですか？</h2>
+			<table class="mx-auto w-50 h-75 fs-5 mb-5">
+				<thead class="w-50">
+					<tr>
+						<th>日付</th>
+						<th>時間</th>
+						<th>備考欄</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="*{reserve.reserveDate}"></td>
+						<td th:text="*{reserve.reserveTime}"></td>
+						<td th:text="*{reserve.remarks}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<form th:action="@{/reserve/editComplete}" method="post"
+				th:object="${reserve}" class="text-center mb-5">
+				<button type="submit" class="btn btn-primary">予約変更を確定する</button>
+			</form>
+		</div>
+	</main>
+</body>
+</html>

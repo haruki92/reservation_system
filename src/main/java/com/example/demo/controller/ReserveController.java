@@ -84,13 +84,11 @@ public class ReserveController {
 			return "redirect:/reserve?error"; // errorパラメータを付与して予約画面にリダイレクト
 		}
 
-		session.setAttribute("reserve", reserve);
-
 		return "redirect:/reserve/complete";
 	}
 
 	@GetMapping("/reserve/confirm")
-	public String showReserveComfirm(Model model, HttpSession session) {
+	public String showReserveConfirm(Model model, HttpSession session) {
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
 
 		model.addAttribute("reserve", reserve);
@@ -114,6 +112,98 @@ public class ReserveController {
 		session.setAttribute("reserve", reserve);
 
 		return "reserve/confirm"; // 予約確認画面に遷移
+	}
+
+	/**
+	 * 予約変更画面への遷移
+	 * @param rs 予約情報
+	 * @param session セッションスコープ
+	 * @return 予約変更画面
+	 */
+	@GetMapping("/reserve/edit")
+	public String getEdit(Reserve rs, HttpSession session) {
+		Integer reservableDate = (Integer) ApplicationScope.getAttribute("reservableDate");
+		LocalTime startTime = (LocalTime) ApplicationScope.getAttribute("startTime");
+		LocalTime endTime = (LocalTime) ApplicationScope.getAttribute("endTime");
+		long limit = endTime.getHour() - startTime.getHour(); // startTimeからendTimeの差分
+
+		List<LocalTime> timeList = Stream.iterate(startTime, t -> t.plusHours(1))
+				.limit(limit + 1)
+				.collect(Collectors.toList()); // 予約時間のリスト
+
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+
+		Calendar calendar = Calendar.getInstance();
+		//		既存の予約日をcalendarにセットする
+		calendar.setTime(LocalDateConverter.localDateToDate(reserve.getReserveDate()));
+		List<LocalDate> dates = new ArrayList<>(); // 予約可能期間のリスト
+
+		System.out.println(calendar.getTime());
+		//		予約可能期間は変更前に取っていた日付からreservableDate日分とする
+		for (int i = 0; i < reservableDate; i++) {
+			dates.add(LocalDateConverter.dateToLocalDate(calendar.getTime()));
+			calendar.add(Calendar.DATE, 1);
+		}
+
+		session.setAttribute("timeList", timeList);
+		session.setAttribute("dates", dates);
+
+		return "reserve/edit";
+	}
+
+	@GetMapping("/reserve/editConfirm")
+	public String getEditConfirm(Model model, HttpSession session) {
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+
+		model.addAttribute("reserve", reserve);
+		return "reserve/editConfirm"; // 予約確認画面に遷移
+	}
+
+	@PostMapping("/reserve/editConfirm")
+	public String postEdit(@Validated Reserve reserve, BindingResult result, HttpSession session) {
+
+		if (result.hasErrors()) {
+			System.err.println("reserveにエラーがありました");
+			return "reserve/edit";
+		}
+		//		予約の重複がないか確認
+		if (!reserveService.isReservationAvailable(reserve.getReserveDate(), reserve.getReserveTime())) {
+			//			予約の重複がある場合
+			return "redirect:/edit?error"; // errorパラメータを持たせて予約変更画面へ遷移
+		}
+
+		session.setAttribute("reserve", reserve);
+
+		return "reserve/editConfirm"; // 予約変更確認画面に遷移
+	}
+
+	@GetMapping("/reserve/editComplete")
+	public String getEditComplete(RedirectAttributes redirectAttributes, HttpSession session) {
+		System.out.println("ReserveController.getEditComplete()");
+		redirectAttributes.addFlashAttribute("reserved", "予約変更が完了しました");
+
+		session.removeAttribute("reserve");
+		return "redirect:/";
+	}
+
+	@PostMapping("/reserve/editComplete")
+	public String postEditComplete(Authentication loginUser, HttpSession session) {
+		System.out.println("ReserveController.postEditComplete()");
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+
+		User user = (User) userRepository.findByUsername(loginUser.getName()).get();
+		System.err.println(reserve);
+
+		try {
+			//			予約する
+			reserveService.changeReserve(reserve, user);
+		} catch (Exception e) {
+			//			予約中にエラーが発生した場合
+			System.err.println(e.getMessage());
+			return "redirect:/edit?error"; // errorパラメータを付与して予約画面にリダイレクト
+		}
+
+		return "redirect:/reserve/editComplete";
 	}
 
 }

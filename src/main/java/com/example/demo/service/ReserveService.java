@@ -49,4 +49,19 @@ public class ReserveService {
 		return existingReservation.isEmpty();
 	}
 
+	/**
+	 * 予約を変更するメソッド
+	 * @param 変更後の予約情報
+	 * @param ユーザ情報
+	 */
+	public void changeReserve(Reserve reserve, User user) {
+		Reserve rs = reserveRepository.findNotDeletedReserve(user.getId()).get();
+		rs.setReserveDate(reserve.getReserveDate());
+		rs.setReserveTime(reserve.getReserveTime());
+		rs.setRemarks(reserve.getRemarks());
+		rs.setChangeFlag(1);
+		rs.setUpdatedAt(LocalDateTime.now());
+		reserveRepository.save(rs);
+	}
+
 }
