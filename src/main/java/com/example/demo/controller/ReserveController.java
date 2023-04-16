@@ -65,7 +65,7 @@ public class ReserveController {
 
 	@GetMapping("/reserve/complete")
 	public String completeReserve(RedirectAttributes redirectAttributes, HttpSession session) {
-		redirectAttributes.addFlashAttribute("reserved", "予約が完了しました");
+		redirectAttributes.addFlashAttribute("flush", "予約が完了しました");
 
 		session.removeAttribute("reserve");
 		return "redirect:/";
@@ -131,15 +131,9 @@ public class ReserveController {
 				.limit(limit + 1)
 				.collect(Collectors.toList()); // 予約時間のリスト
 
-		Reserve reserve = (Reserve) session.getAttribute("reserve");
-
 		Calendar calendar = Calendar.getInstance();
-		//		既存の予約日をcalendarにセットする
-		calendar.setTime(LocalDateConverter.localDateToDate(reserve.getReserveDate()));
 		List<LocalDate> dates = new ArrayList<>(); // 予約可能期間のリスト
 
-		System.out.println(calendar.getTime());
-		//		予約可能期間は変更前に取っていた日付からreservableDate日分とする
 		for (int i = 0; i < reservableDate; i++) {
 			dates.add(LocalDateConverter.dateToLocalDate(calendar.getTime()));
 			calendar.add(Calendar.DATE, 1);
@@ -179,8 +173,7 @@ public class ReserveController {
 
 	@GetMapping("/reserve/editComplete")
 	public String getEditComplete(RedirectAttributes redirectAttributes, HttpSession session) {
-		System.out.println("ReserveController.getEditComplete()");
-		redirectAttributes.addFlashAttribute("reserved", "予約変更が完了しました");
+		redirectAttributes.addFlashAttribute("flush", "予約変更が完了しました");
 
 		session.removeAttribute("reserve");
 		return "redirect:/";
@@ -192,7 +185,6 @@ public class ReserveController {
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
 
 		User user = (User) userRepository.findByUsername(loginUser.getName()).get();
-		System.err.println(reserve);
 
 		try {
 			//			予約する
@@ -204,6 +196,31 @@ public class ReserveController {
 		}
 
 		return "redirect:/reserve/editComplete";
+	}
+
+	@GetMapping("/reserve/delete")
+	public String getReserveDelete(Model model, HttpSession session) {
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+		model.addAttribute("reserve", reserve);
+
+		return "reserve/delete";
+	}
+
+	@PostMapping("/reserve/delete")
+	public String reserveDelete(RedirectAttributes redirectAttributes, HttpSession session) {
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+
+		try {
+			reserveService.deleteReserve(reserve);
+			redirectAttributes.addFlashAttribute("flush", "予約をキャンセルしました");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return "redirect:/?error";
+		}
+
+		session.removeAttribute("reserve");
+
+		return "redirect:/";
 	}
 
 }

@@ -13,8 +13,8 @@
 			<p id="flush" class="js-5 my-5 mx-auto">
 				ようこそ&nbsp;<span th:text="${session['username']}" class="mx-3"></span>&nbsp;さん
 			</p>
-			<p th:if="${reserved != null}" id="flush-success"
-				class="js-5 my-5 mx-auto" th:text="${reserved}"></p>
+			<p th:if="${flush != null}" id="flush-success"
+				class="js-5 my-5 mx-auto" th:text="${flush}"></p>
 
 			<div th:if="${#session.getAttribute('reserve') == null}"
 				class="text-center mx-auto">
@@ -52,6 +52,9 @@
 
 				<div class="mx-auto text-center">
 					<a th:href="@{/reserve/edit}" class="btn btn-primary my-5 w-25">予約内容を変更する</a>
+				</div>
+				<div class="text-center">
+					<a th:href="@{/reserve/delete}" class="btn btn-danger mb-5 w-25">予約をキャンセルする</a>
 				</div>
 			</div>
 

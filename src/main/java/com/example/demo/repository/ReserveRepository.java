@@ -35,21 +35,21 @@ public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 	Optional<Reserve> findByReserveDate(LocalDate reserveDate);
 
 	/**
-	 * 予約日時を条件に予約情報IDを取得する
+	 * 予約日時を条件に予約キャンセルされていない予約情報IDを取得する
 	 * （取得できる = 予約があるためその日時には予約できない）
 	 * @param 日付
 	 * @param 時間
 	 * @return 予約情報
 	 */
-	@Query("SELECT r FROM Reserve r WHERE r.reserveDate = ?1 AND r.reserveTime = ?2")
+	@Query("SELECT r FROM Reserve r WHERE r.reserveDate = ?1 AND r.reserveTime = ?2 AND r.deleteFlag = 0")
 	Optional<Reserve> findIdByReserveDateAndReserveTime(LocalDate reserveDate, LocalTime reserveTime);
 
 	/**
-	 * 予約日を条件に予約時間（予約されている時間）を取得
+	 * 予約日を条件に予約キャンセルされていない予約時間（予約されている時間）を取得
 	 * @param date
 	 * @return 予約時間
 	 */
-	@Query("SELECT r.reserveTime FROM Reserve r WHERE r.reserveDate = ?1")
+	@Query("SELECT r.reserveTime FROM Reserve r WHERE r.reserveDate = ?1 AND r.deleteFlag = 0")
 	List<LocalTime> findReserveTimeByReserveDate(LocalDate date);
 
 }

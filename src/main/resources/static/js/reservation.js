@@ -42,7 +42,13 @@ function getAvailableTimes() {
 function populateAvailableTimes(availableTimes) {
 	/** defaultIDをもった要素を取得して削除する */
 	let defaultDateSelected = document.getElementById("default");
-	defaultDateSelected.remove();
+
+	/** defaultDateSelectedが取得できた時、要素を削除する
+	 *  selectボタンを１度も選択していないときにのみ取得できる
+	 */
+	if (defaultDateSelected != null) {
+		defaultDateSelected.remove();
+	}
 
 
 	/** reserveTimeフィールドをもった要素を取得して空要素を入れる */

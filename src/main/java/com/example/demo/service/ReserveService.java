@@ -64,4 +64,15 @@ public class ReserveService {
 		reserveRepository.save(rs);
 	}
 
+	/**
+	 * 予約を削除するメソッド
+	 * @param reserve 削除対象の予約情報
+	 */
+	public void deleteReserve(Reserve reserve) {
+		Reserve rs = reserveRepository.findNotDeletedReserve(reserve.getUser_id().getId()).get();
+		rs.setDeleteFlag(1);
+		rs.setUpdatedAt(LocalDateTime.now());
+		reserveRepository.save(rs);
+	}
+
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>予約システム：予約キャンセルページ</title>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="container">
+
+			<h2 class="text-center my-5">以下の予約をキャンセルしますか？</h2>
+			<div id="details" class="p-5 border mx-auto w-50"
+				th:object="${reserve}">
+
+				<div class="wrapper w-75 mx-auto ">
+					<p>日時</p>
+					<div class="d-flex justify-content-start">
+						<p th:text="*{reserveDate}"></p>
+						&nbsp;&nbsp;
+						<p th:text="*{reserveTime}"></p>
+					</div>
+				</div>
+
+				<div class="wrapper w-75 mx-auto">
+					<p>お名前</p>
+					<p>
+						<span th:text="*{user_id.username}"></span>&nbsp;様
+					</p>
+				</div>
+
+				<div class="wrapper w-75 mx-auto">
+					<p>備考欄</p>
+					<p th:text="*{remarks}" id="remarks"
+						class="border mx-auto w-100 p-3"></p>
+				</div>
+
+			</div>
+			<form th:action="@{/reserve/delete}" method="post"
+				class="text-center my-5">
+				<button class="btn btn-danger mb-5 w-25" type="submit">予約をキャンセルする</button>
+			</form>
+
+		</div>
+
+	</main>
+</body>
+</html>

@@ -36,7 +36,7 @@ public class ApiController {
 	public List<LocalTime> getAvailableTimes(@RequestParam(value = "date") String date, HttpSession session) {
 		//		String型で取得した日付をyyyy/MM/dd形式でLocalDate型にparseする
 		LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-		//		日付を条件に予約時間を探す
+		//		日付を条件に予約キャンセルされていない予約時間を探す
 		List<LocalTime> reservedTimes = reserveRepository.findReserveTimeByReserveDate(localDate);
 		List<LocalTime> availableTimes = new ArrayList<>();
 
@@ -50,7 +50,6 @@ public class ApiController {
 				availableTimes.add(time);
 			}
 		}
-
 		//		JavaScriptに予約可能時間 availableTimes配列を返す
 		return availableTimes;
 	}
