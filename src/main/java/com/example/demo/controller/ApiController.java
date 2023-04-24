@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Reserve;
 import com.example.demo.repository.ReserveRepository;
 
 @RestController // HTTPリクエストに対してJSONなどのレスポンスを返すために使用されるアノテーション
@@ -52,5 +53,32 @@ public class ApiController {
 		}
 		//		JavaScriptに予約可能時間 availableTimes配列を返す
 		return availableTimes;
+	}
+
+	/**
+	 * JavaScriptからのリクエスト
+	 * 年と月を条件に予約情報を取得してJavaScriptへ返す
+	 * @param 年
+	 * @param 月
+	 * @return 予約情報
+	 */
+	@GetMapping("/reservationList")
+	public List<Reserve> getReservationList(@RequestParam(value = "year") int year,
+			@RequestParam(value = "month") int month) {
+		System.out.println("year: " + year);
+		System.out.println("month: " + month);
+
+		LocalDate startDate = LocalDate.of(year, month, 1);
+		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+		System.out.println(startDate + "-" + endDate);
+
+		List<Reserve> reservationList = reserveRepository.findByReserveDateBetween(startDate, endDate);
+
+		for (Reserve reserve : reservationList) {
+			System.out.println(reserve.getUser_id().getUsername());
+		}
+
+		return reservationList;
+
 	}
 }

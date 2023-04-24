@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -9,8 +10,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.model.Reserve;
 import com.example.demo.model.Shop;
 import com.example.demo.model.User;
+import com.example.demo.repository.ReserveRepository;
 import com.example.demo.repository.ShopRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.util.Authority;
@@ -24,6 +27,7 @@ public class DataLoader implements ApplicationRunner {
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 	private final ShopRepository shopRepository;
+	private final ReserveRepository reserveRepository;
 
 	//	Beanの実行に使用される
 	@Override
@@ -42,11 +46,21 @@ public class DataLoader implements ApplicationRunner {
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setDeleteFlag(0);
-
-		//		ユーザが存在しない場合、登録する
-		if (userRepository.findByUsername(user.getUsername()).isEmpty()) {
+		if (userRepository.findByUsername("admin").isEmpty()) {
 			userRepository.save(user);
 		}
+
+		var reserve = new Reserve();
+		reserve.setReserveDate(LocalDate.of(2026, 8, 13));
+		reserve.setReserveTime(LocalTime.of(14, 0));
+		reserve.setUser_id(user);
+		reserve.setChangeFlag(0);
+		reserve.setDeleteFlag(0);
+		reserve.setCreatedAt(LocalDateTime.now());
+		reserve.setUpdatedAt(LocalDateTime.now());
+		reserve.setRemarks("adminのtestReservation");
+		if (reserveRepository.findReserveByUser_id(user.getId()).isEmpty())
+			reserveRepository.save(reserve);
 
 		//		店舗側の設定
 		var shop = new Shop();

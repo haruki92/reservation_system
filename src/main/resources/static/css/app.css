@@ -98,7 +98,7 @@ a.btn {
 	justify-content: center;
 }
 
-table {
+.vertical {
 	-ms-writing-mode: tb-lr;
 	writing-mode: vertical-lr;
 }
@@ -107,3 +107,24 @@ th,
 td {
 	writing-mode: horizontal-tb;
 }
+
+.date>.select {
+	width: 15%;
+}
+
+#reservationList > tbody > tr {
+	height: 10vh;
+}
+
+#reservationList > tbody > tr > th,
+#reservationList > tbody > tr > td {
+	text-align: center;
+}
+
+
+
+#reservationList > tbody > tr > th:not(:first-of-type),
+#reservationList > tbody > tr > td:not(:first-of-type) {
+	border-left: 1px solid #dee2e6!important;
+}
+

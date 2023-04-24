@@ -52,4 +52,13 @@ public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 	@Query("SELECT r.reserveTime FROM Reserve r WHERE r.reserveDate = ?1 AND r.deleteFlag = 0")
 	List<LocalTime> findReserveTimeByReserveDate(LocalDate date);
 
+	/**
+	 * 予約日を条件に予約キャンセルされていない予約時間（予約されている時間）を取得
+	 * @param endDate 
+	 * @param startDate 
+	 * @param date
+	 * @return 予約時間
+	 */
+	List<Reserve> findByReserveDateBetween(LocalDate startDate, LocalDate endDate);
+
 }
