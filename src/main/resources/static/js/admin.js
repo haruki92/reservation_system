@@ -87,11 +87,13 @@ function getReservationsByYearAndMonth() {
 
 }
 
+/** 予約リストテーブルの中身を削除するメソッド */
 function deleteReservationList() {
 	console.log("deleteReservationList()");
 	const table = document.getElementById("reservationList");
 
 
+	/** tableの最初の子要素を削除する処理のループ */
 	while (table.firstChild) {
 		table.removeChild(table.firstChild);
 	}

@@ -5,6 +5,8 @@ body {
 	padding: 0;
 }
 
+/* header */
+
 header {
 	height:10vh;
 	background: #002434;
@@ -21,53 +23,69 @@ header {
 	text-decoration: underline;
 }
 
-#system-title {
-	line-height: 10vh;
+.setting-wrapper {
 	text-align: center;
-}
-
-.input,
-.select {
+	width: 40px;
+	height: 40px;
 	border-radius: 9999px;
-	border-color: #ccc;
-	height: 5vh;
+	background-color: #fff;
 }
 
-.input:hover,
-.select:hover,
-.check:hover {
-	border: 1px solid #0094ff;
-	background-color: #cbe9ff;
-	transition: 0.2s;
+.setting-wrapper:hover {
+	background-color: #ccc;
+	transition: 0.3s;
 }
 
-.select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	text-indent: 3%;
+.setting-wrapper > a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: relative;
 }
 
-a.btn {
-	line-height: 7vh;
-	padding: 0;
+.setting-icon {
+	color:#002434;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
-.btn {
-	height: 7vh;
-	font-size: 1.3rem;
-	background-color: #0b1456;
-	border-radius: 9999px;
+#hamburger {
+	width:40px;
+	height: 32px;
+	position: relative;
+	display: none;
 }
 
-#details {
-	height: fit-content;
+#hamburger:hover {
+	cursor: pointer;
 }
 
-#remarks {
-	min-height: 20vh;
+.hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  background: #fff;
 }
 
+.hamburger-bar:nth-child(1) {
+  top: 0;
+}
+
+.hamburger-bar:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger-bar:nth-child(3) {
+  top: 100%;
+  transform: translateY(-100%);
+}
+
+/* flush message */
 #flush {
 	border: 1px solid #ccc;
 	border-radius: 20px;
@@ -98,6 +116,71 @@ a.btn {
 	justify-content: center;
 }
 
+/* btn setting */
+.input,
+.select {
+	border-radius: 9999px;
+	border-color: #ccc;
+	height: 50px;
+	line-height: normal!important;
+}
+
+.input:hover,
+.select:hover,
+.check:hover {
+	border: 1px solid #0094ff;
+	background-color: #cbe9ff;
+	transition: 0.2s;
+}
+
+.select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	text-indent: 3%;
+}
+
+a.btn {
+	line-height: 7vh;
+	padding: 0;
+}
+
+.btn {
+	height: 7vh;
+	font-size: 1.3rem;
+	background-color: #0b1456;
+	border-radius: 9999px;
+}
+
+/* common */
+#system-title {
+	line-height: 10vh;
+	text-align: center;
+}
+
+.w-10 {
+	width: 10%;
+	min-width: 100px;
+}
+
+p {
+	margin: 0;
+}
+
+
+/* reservation */
+#details {
+	height: fit-content;
+}
+
+#remarks {
+	min-height: 20vh;
+}
+
+.date>.select {
+	width: 15%;
+}
+
 .vertical {
 	-ms-writing-mode: tb-lr;
 	writing-mode: vertical-lr;
@@ -108,10 +191,8 @@ td {
 	writing-mode: horizontal-tb;
 }
 
-.date>.select {
-	width: 15%;
-}
 
+/* /admin reservationList */
 #reservationList > tbody > tr {
 	height: 10vh;
 }
@@ -127,4 +208,31 @@ td {
 #reservationList > tbody > tr > td:not(:first-of-type) {
 	border-left: 1px solid #dee2e6!important;
 }
+
+/* setting */
+#setting-table > thead > tr,
+#setting-table > tbody > tr {
+	width: 200px;
+}
+
+#setting-table > thead,
+#setting-table > tbody {
+	height: 100px;
+	line-height: 100px;
+}
+
+
+/* responsive */
+@media(max-width: 768px) {
+	/* header */
+	.nav-bar {
+		display:none!important;
+	}
+
+	#hamburger {
+		display: block;
+	}
+
+}
+
 

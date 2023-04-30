@@ -1,6 +1,7 @@
 <!DOCTYPE>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,12 +35,29 @@
 				<span th:text="${session['username']}" class="p-0 m-0"></span>&nbsp;さん
 			</div>
 
-			<div id="system-title" class="justify-content-center">
+			<div id="system-title" class="mx-auto">
 				<h2>予約システム</h2>
 			</div>
 
-			<div class="config">
-				<a th:href="@{/logout}" class="logout fs-6 justify-content-right">ログアウト</a>
+			<div
+				class="d-flex justify-content-between align-items-center w-10 nav-bar">
+				<div class="config">
+					<a th:href="@{/logout}" class="logout fs-6">ログアウト</a>
+				</div>
+
+				<!-- ログイン者が /admin にアクセス権限がある場合 = 管理者の場合設定ボタンを表示 -->
+				<div sec:authorize-url="/admin"
+					class="setting-wrapper d-flex justify-content-center align-items-center">
+					<a th:href="@{/admin/setting}"><i
+						class="bi bi-gear setting-icon"></i></a>
+				</div>
+
+			</div>
+
+			<!-- ハンバーガメニューボタン -->
+			<div id="hamburger">
+				<span class="hamburger-bar"></span> <span class="hamburger-bar"></span>
+				<span class="hamburger-bar"></span>
 			</div>
 
 		</div>

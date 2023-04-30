@@ -1,0 +1,76 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理者専用ページ: 設定画面</title>
+<script th:src="@{/js/setting.js}"></script>
+</head>
+<body>
+	<main layout:fragment="content">
+		<h2 class="text-center my-5">設定画面</h2>
+		<form th:action="@{/admin/setting}" method="post"
+			th:object="${settingForm}">
+
+			<table id="setting-table" class="vertical mx-auto">
+				<thead>
+					<tr>
+						<th scope="row"><label for="${reservableDate}"
+							class="form-label">予約可能期間</label></th>
+						<th scope="row"><label for="${startTime}" class="form-label">開始時間</label></th>
+						<th scope="row"><label for="${endTime}" class="form-label">終了時間</label></th>
+						<th scope="row"><label for="${storeHoliday}"
+							class="form-label">定休日</label></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><div class="d-flex align-items-center mx-auto">
+								<input type="number" class="form-control input w-50"
+									id="reservableDate" th:value="${reservableDate}"
+									th:field="*{reservableDate}">
+								<p>日前</p>
+							</div></td>
+						<td><div class="d-flex align-items-center">
+								<input type="number" class="form-control input w-25"
+									th:value="${startHours}" max="22" min="0"
+									th:field="*{startHours}" oninput="setMinimumEndTimes()">&nbsp;<span>時</span>&nbsp;
+								<input type="number" class="form-control input w-25"
+									th:value="${startMinutes}" max="50" min="0" step="10"
+									th:field="*{startMinutes}" oninput="setMinimumEndTimes()">&nbsp;<span>分</span>&nbsp;
+							</div></td>
+						<td><div class="d-flex align-items-center">
+								<input type="number" class="form-control input w-25"
+									th:value="${endHours}" max="23" min="0" th:field="*{endHours}"
+									oninput="setMinimumEndTimes()">&nbsp;<span>時</span>&nbsp;
+								<input type="number" class="form-control input w-25"
+									th:value="${endMinutes}" max="50" min="0" step="10"
+									th:field=*{endMinutes} oninput="setMinimumEndTimes()">&nbsp;<span>分</span>&nbsp;
+							</div></td>
+						<td>
+							<div class="d-flex align-items-center">
+								<select class="select w-25 text-center dayOfWeek"
+									th:field="*{dayOff}">
+									<option th:each="day : ${dayOfWeek}" th:value="${day}"
+										th:text="${day}" th:selected="${day == storeHoliday}"></option>
+								</select> &nbsp;<span>曜日</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="text-center">
+				<button class="btn btn-primary mt-5" type="submit">設定を変更する</button>
+			</div>
+
+		</form>
+
+		<div class="mx-auto w-25 text-center mt-5">
+			<a th:href="@{/}">トップページに戻る</a>
+		</div>
+	</main>
+</body>
+</html>

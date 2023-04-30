@@ -46,9 +46,6 @@ public class DataLoader implements ApplicationRunner {
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setDeleteFlag(0);
-		if (userRepository.findByUsername("admin").isEmpty()) {
-			userRepository.save(user);
-		}
 
 		var reserve = new Reserve();
 		reserve.setReserveDate(LocalDate.of(2026, 8, 13));
@@ -59,8 +56,14 @@ public class DataLoader implements ApplicationRunner {
 		reserve.setCreatedAt(LocalDateTime.now());
 		reserve.setUpdatedAt(LocalDateTime.now());
 		reserve.setRemarks("adminのtestReservation");
-		if (reserveRepository.findReserveByUser_id(user.getId()).isEmpty())
-			reserveRepository.save(reserve);
+
+		if (userRepository.findByUsername("admin").isEmpty()) {
+			userRepository.save(user);
+
+			if (reserveRepository.findReserveByUser_id(user.getId()).isEmpty()) {
+				reserveRepository.save(reserve);
+			}
+		}
 
 		//		店舗側の設定
 		var shop = new Shop();

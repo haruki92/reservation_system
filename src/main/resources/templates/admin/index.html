@@ -11,10 +11,14 @@
 <body>
 	<main layout:fragment="content">
 		<div class="container">
+
+			<p th:if="${flush != null}" id="flush-success"
+				class="js-5 my-5 mx-auto" th:text="${flush}"></p>
+
 			<h2 class="text-center mt-5">予約リスト</h2>
 
 			<div
-				class="w-50 mx-auto d-flex justify-content-between align-items-center date my-5">
+				class="w-50 mx-auto d-flex justify-content-around align-items-center date my-5">
 				<select id="yearSelect" class="select text-center"
 					onchange="getReservationsByYearAndMonth()">
 				</select> <select id="monthSelect" class="select text-center"
