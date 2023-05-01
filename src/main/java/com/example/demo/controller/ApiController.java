@@ -41,7 +41,6 @@ public class ApiController {
 		List<LocalTime> reservedTimes = reserveRepository.findReserveTimeByReserveDate(localDate);
 
 		List<LocalTime> availableTimes = new ArrayList<>();
-		System.out.println("reservedTimes: " + reservedTimes);
 
 		//		timeList = 店舗側設定の予約時間 （例）10:00 ～ 20:00をtimeInterval毎に取得した配列
 		@SuppressWarnings("unchecked")
@@ -58,6 +57,8 @@ public class ApiController {
 				availableTimes.add(minute);
 			}
 		}
+
+		System.out.println(availableTimes);
 		//		JavaScriptに予約可能時間 availableTimes配列を返す
 		return availableTimes;
 	}
