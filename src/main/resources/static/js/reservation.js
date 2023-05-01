@@ -40,6 +40,27 @@ function getAvailableTimes() {
  * 引数に渡された"availableTimes"配列から、HTMLのセレクトボックスに予約可能な時間を動的に生成する
  */
 function populateAvailableTimes(availableTimes) {
+
+	/** 予約可能な 時間 分 それぞれの配列を作成する*/
+	let availableHours = [];
+	let availableMinutes = [];
+
+	for (let i = 0; i < availableTimes.length; i++) {
+		/** : の文字列で分割して配列にする (例) 10:20:00 の場合 timeArr = [10, 20, 00] */
+		const timeArr = availableTimes[i].split(":");
+
+		const hour = timeArr[0];
+		const minute = timeArr[1];
+
+		/** hourが既に配列に存在する場合はpushしない */
+		if (!availableHours.includes(hour + ":00:00")) {
+			availableHours.push(hour + ":00:00");
+		}
+
+		availableMinutes.push(hour + ":" + minute + ":00");
+
+	}
+
 	/** defaultIDをもった要素を取得して削除する */
 	let defaultDateSelected = document.getElementById("default");
 
@@ -50,23 +71,44 @@ function populateAvailableTimes(availableTimes) {
 		defaultDateSelected.remove();
 	}
 
-
 	/** reserveTimeフィールドをもった要素を取得して空要素を入れる */
 	let reserveTimeSelect = document.getElementById("reserveTime");
 	reserveTimeSelect.innerHTML = "";
 
+
 	/** availableTimeの配列の中身をoption要素を作成して表示する */
-	for (let i = 0; i < availableTimes.length; i++) {
+	for (let i = 0; i < availableHours.length; i++) {
+		/** optgroup要素を作成する */
+		let optgroup = document.createElement("optgroup");
 
-		/** option要素を作成する */
-		let option = document.createElement("option");
+		const hoursArr = availableHours[i].split(":");
+		console.log("hoursArr: " + hoursArr);
 
-		/** Moment.jsで日付フォーマット 引数はMoment.jsが認識できるISO 8601形式で*/
-		let formattedTime = moment("1970-01-01T" + availableTimes[i]).format("HH:mm");
-		option.value = formattedTime;
-		option.text = formattedTime;
+		/** Moment.jsで日付フォーマット 引数はMoment.jsが認識できるISO 8601形式で */
+		let formattedHours = moment("1970-01-01T" + availableHours[i]).format("HH:mm");
 
-		/** option要素をセレクトボタンの子要素に追加 */
-		reserveTimeSelect.appendChild(option);
+		optgroup.label = formattedHours + " ～";
+
+		/** optgroup要素をセレクトボタンの子要素に追加 */
+		reserveTimeSelect.appendChild(optgroup);
+
+		/** optgroup要素の中に予約可能な時間のoption要素を作成する */
+		for (let j = 0; j < availableMinutes.length; j++) {
+			const minutesArr = availableMinutes[j].split(":");
+
+			/** hoursArrにminutesArrの値が含まれている場合 = 時(h)が一致する時 にのみoption要素を作成する */
+			if (hoursArr.includes(minutesArr[0])) {
+				let option = document.createElement("option");
+				/** Moment.jsで日付フォーマット 引数はMoment.jsが認識できるISO 8601形式で */
+				let formattedMinutes = moment("1970-01-01T" + availableMinutes[j]).format("HH:mm");
+
+				option.value = formattedMinutes;
+				option.text = formattedMinutes;
+				/** option要素をoptgroup要素の子要素に追加 */
+				optgroup.appendChild(option);
+			}
+		}
+
+
 	}
 }

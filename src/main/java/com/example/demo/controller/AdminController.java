@@ -35,6 +35,7 @@ public class AdminController {
 		Integer reservableDate = (Integer) ApplicationScope.getAttribute("reservableDate");
 		LocalTime startTime = (LocalTime) ApplicationScope.getAttribute("startTime");
 		LocalTime endTime = (LocalTime) ApplicationScope.getAttribute("endTime");
+		Integer timeInterval = (Integer) ApplicationScope.getAttribute("timeInterval");
 
 		int startHours = startTime.getHour();
 		int startMinutes = startTime.getMinute();
@@ -94,12 +95,14 @@ public class AdminController {
 		settingForm.setStartMinutes(startMinutes);
 		settingForm.setEndHours(endHours);
 		settingForm.setEndMinutes(endMinutes);
+		settingForm.setTimeInterval(timeInterval);
 
 		model.addAttribute("reservableDate", reservableDate);
 		model.addAttribute("startHours", startHours);
 		model.addAttribute("startMinutes", startMinutes);
 		model.addAttribute("endHours", endHours);
 		model.addAttribute("endMinutes", endMinutes);
+		model.addAttribute("timeInterval", timeInterval);
 		model.addAttribute("dayOfWeek", dayNames);
 
 		return "admin/setting";

@@ -42,6 +42,11 @@ public class Shop {
 	private LocalTime endTime;
 
 	/**
+	 * 予約時間の間隔（分）
+	 */
+	private Integer timeInterval;
+
+	/**
 	 * 店休日
 	 * 店が休みの曜日を設定
 	 */

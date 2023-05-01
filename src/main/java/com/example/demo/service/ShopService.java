@@ -40,10 +40,13 @@ public class ShopService {
 		//		店舗側の設定の定休日を取得
 		DayOfWeek storeHoliday = shop.getStoreHoliday();
 
+		Integer timeInterval = shop.getTimeInterval();
+
 		ApplicationScope.setAttribute("reservableDate", reservableDate); // 予約可能日
 		ApplicationScope.setAttribute("startTime", startTime); // 予約開始時間
 		ApplicationScope.setAttribute("endTime", endTime); // 予約終了時間
 		ApplicationScope.setAttribute("storeHoliday", storeHoliday); // 店休日
+		ApplicationScope.setAttribute("timeInterval", timeInterval); // 予約時間間隔 分
 	}
 
 	/**
@@ -55,6 +58,7 @@ public class ShopService {
 		shop.setReservableDate(settingForm.getReservableDate());
 		shop.setStartTime(LocalTime.of(settingForm.getStartHours(), settingForm.getStartMinutes()));
 		shop.setEndTime(LocalTime.of(settingForm.getEndHours(), settingForm.getEndMinutes()));
+		shop.setTimeInterval(settingForm.getTimeInterval());
 		shop.setStoreHoliday(DayOfWeekConverter.stringToDayOfWeek(settingForm.getDayOff()));
 
 		shopRepository.save(shop);

@@ -70,6 +70,7 @@ public class DataLoader implements ApplicationRunner {
 		shop.setReservableDate(7); // 予約可能日時 7 日後
 		shop.setStartTime(LocalTime.of(10, 0)); // 予約開始時間 10:00 ～
 		shop.setEndTime(LocalTime.of(20, 0)); // 予約終了時間 ～ 20:00
+		shop.setTimeInterval(10); // 予約間隔 10分
 		shop.setStoreHoliday(DayOfWeek.SUNDAY); // 店休日 日曜日
 		if (shopRepository.findById(1).isEmpty()) {
 			shopRepository.save(shop);

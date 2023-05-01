@@ -21,6 +21,8 @@
 							class="form-label">予約可能期間</label></th>
 						<th scope="row"><label for="${startTime}" class="form-label">開始時間</label></th>
 						<th scope="row"><label for="${endTime}" class="form-label">終了時間</label></th>
+						<th scope="row"><label for="${timeInterval}"
+							class="form-label">予約間隔（分）</label></th>
 						<th scope="row"><label for="${storeHoliday}"
 							class="form-label">定休日</label></th>
 					</tr>
@@ -48,6 +50,11 @@
 								<input type="number" class="form-control input w-25"
 									th:value="${endMinutes}" max="50" min="0" step="10"
 									th:field=*{endMinutes} oninput="setMinimumEndTimes()">&nbsp;<span>分</span>&nbsp;
+							</div></td>
+						<td><div class="d-flex align-items-center">
+								<input type="number" class="form-control input w-25" max="60"
+									min="5" step="5" th:value="${timeInterval}"
+									th:field="*{timeInterval}">&nbsp;<span>分</span>
 							</div></td>
 						<td>
 							<div class="d-flex align-items-center">

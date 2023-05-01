@@ -24,6 +24,9 @@ public class SettingForm {
 	//	終了時間 分
 	private int endMinutes;
 
+	// 予約時間間隔 分
+	private int timeInterval;
+
 	//	定休日 storeHolidayだとThymeleafでエンティティで宣言したDayOfWeek型と混同してしまう為名称を変更
 	private String dayOff;
 }

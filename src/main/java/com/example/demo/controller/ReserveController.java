@@ -41,13 +41,25 @@ public class ReserveController {
 	@GetMapping("/reserve")
 	public String showReserveForm(Reserve reserve, HttpSession session) {
 		Integer reservableDate = (Integer) ApplicationScope.getAttribute("reservableDate");
+		Integer timeInterval = (Integer) ApplicationScope.getAttribute("timeInterval");
 		LocalTime startTime = (LocalTime) ApplicationScope.getAttribute("startTime");
 		LocalTime endTime = (LocalTime) ApplicationScope.getAttribute("endTime");
+
 		long limit = endTime.getHour() - startTime.getHour(); // startTimeからendTimeの差分
 
-		List<LocalTime> timeList = Stream.iterate(startTime, t -> t.plusHours(1))
+		List<LocalTime> hoursList = Stream.iterate(startTime, t -> t.plusHours(1))
 				.limit(limit + 1)
 				.collect(Collectors.toList()); // 予約時間のリスト
+
+		List<LocalTime> allMinutesList = new ArrayList<>();
+
+		for (LocalTime hour : hoursList) {
+			List<LocalTime> minutesList = Stream.iterate(hour, t -> t.plusMinutes(timeInterval))
+					.limit(60 / timeInterval)
+					.collect(Collectors.toList()); // 予約時間（分）のリスト
+			allMinutesList.addAll(minutesList);
+			System.out.println("hour: " + hour + ", minutesList: " + minutesList);
+		}
 
 		Calendar calendar = Calendar.getInstance();
 		List<LocalDate> dates = new ArrayList<>(); // 予約可能期間のリスト
@@ -57,7 +69,9 @@ public class ReserveController {
 			calendar.add(Calendar.DATE, 1);
 		}
 
-		session.setAttribute("timeList", timeList);
+		System.out.println("allMinutesList: " + allMinutesList);
+		session.setAttribute("hoursList", hoursList);
+		session.setAttribute("minutesList", allMinutesList);
 		session.setAttribute("dates", dates);
 		return "reserve/reserve";
 
@@ -125,11 +139,16 @@ public class ReserveController {
 		Integer reservableDate = (Integer) ApplicationScope.getAttribute("reservableDate");
 		LocalTime startTime = (LocalTime) ApplicationScope.getAttribute("startTime");
 		LocalTime endTime = (LocalTime) ApplicationScope.getAttribute("endTime");
+		Integer timeInterval = (Integer) ApplicationScope.getAttribute("timeInterval");
 		long limit = endTime.getHour() - startTime.getHour(); // startTimeからendTimeの差分
 
-		List<LocalTime> timeList = Stream.iterate(startTime, t -> t.plusHours(1))
+		List<LocalTime> hourList = Stream.iterate(startTime, t -> t.plusHours(1))
 				.limit(limit + 1)
-				.collect(Collectors.toList()); // 予約時間のリスト
+				.collect(Collectors.toList()); // 予約時間（時）のリスト
+
+		List<LocalTime> minutesList = Stream.iterate(startTime, t -> t.plusMinutes(timeInterval))
+				.limit(60 / timeInterval)
+				.collect(Collectors.toList()); // 予約時間（分）のリスト
 
 		Calendar calendar = Calendar.getInstance();
 		List<LocalDate> dates = new ArrayList<>(); // 予約可能期間のリスト
@@ -139,7 +158,8 @@ public class ReserveController {
 			calendar.add(Calendar.DATE, 1);
 		}
 
-		session.setAttribute("timeList", timeList);
+		session.setAttribute("hourList", hourList);
+		session.setAttribute("minutesList", minutesList);
 		session.setAttribute("dates", dates);
 
 		return "reserve/edit";

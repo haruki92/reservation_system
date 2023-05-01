@@ -39,16 +39,23 @@ public class ApiController {
 		LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		//		日付を条件に予約キャンセルされていない予約時間を探す
 		List<LocalTime> reservedTimes = reserveRepository.findReserveTimeByReserveDate(localDate);
+
 		List<LocalTime> availableTimes = new ArrayList<>();
+		System.out.println("reservedTimes: " + reservedTimes);
 
-		//		timeList = 店舗側設定の予約時間 （例）10:00 ～ 20:00を１時間毎に取得した配列
+		//		timeList = 店舗側設定の予約時間 （例）10:00 ～ 20:00をtimeInterval毎に取得した配列
 		@SuppressWarnings("unchecked")
-		List<LocalTime> timeList = (List<LocalTime>) session.getAttribute("timeList");
+		List<LocalTime> hourList = (List<LocalTime>) session.getAttribute("hoursList");
+		@SuppressWarnings("unchecked")
+		List<LocalTime> minutesList = (List<LocalTime>) session.getAttribute("minutesList");
 
-		//		取得した予約情報の予約時間にtimeListの各時間が含まれていなければavailableTimes配列に追加する
-		for (LocalTime time : timeList) {
-			if (!reservedTimes.contains(time)) {
-				availableTimes.add(time);
+		System.out.println("hourList: " + hourList);
+		System.out.println("minutesList: " + minutesList);
+
+		//		取得した予約情報の予約時間にhourList, minutesListを条件に検索して各時間が含まれていなければavailableTimes配列に追加する
+		for (LocalTime minute : minutesList) {
+			if (!reservedTimes.contains(minute)) {
+				availableTimes.add(minute);
 			}
 		}
 		//		JavaScriptに予約可能時間 availableTimes配列を返す
@@ -65,9 +72,6 @@ public class ApiController {
 	@GetMapping("/reservationList")
 	public List<Reserve> getReservationList(@RequestParam(value = "year") int year,
 			@RequestParam(value = "month") int month) {
-		System.out.println("year: " + year);
-		System.out.println("month: " + month);
-
 		LocalDate startDate = LocalDate.of(year, month, 1);
 		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 		System.out.println(startDate + "-" + endDate);
