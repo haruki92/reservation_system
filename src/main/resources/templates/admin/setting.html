@@ -38,10 +38,10 @@
 						<td><div class="d-flex align-items-center">
 								<input type="number" class="form-control input w-25"
 									th:value="${startHours}" max="22" min="0"
-									th:field="*{startHours}" oninput="setMinimumEndTimes()">&nbsp;<span>時</span>&nbsp;
+									th:field="*{startHours}" oninput="setMinimumEndTimes()">&nbsp;<span>時</span>
 								<input type="number" class="form-control input w-25"
 									th:value="${startMinutes}" max="50" min="0" step="10"
-									th:field="*{startMinutes}" oninput="setMinimumEndTimes()">&nbsp;<span>分</span>&nbsp;
+									th:field="*{startMinutes}" oninput="setMinimumEndTimes()">&nbsp;<span>分</span>
 							</div></td>
 						<td><div class="d-flex align-items-center">
 								<input type="number" class="form-control input w-25"
@@ -49,12 +49,16 @@
 									oninput="setMinimumEndTimes()">&nbsp;<span>時</span>&nbsp;
 								<input type="number" class="form-control input w-25"
 									th:value="${endMinutes}" max="50" min="0" step="10"
-									th:field=*{endMinutes} oninput="setMinimumEndTimes()">&nbsp;<span>分</span>&nbsp;
+									th:field=*{endMinutes} oninput="setMinimumEndTimes()">&nbsp;<span>分</span>
 							</div></td>
 						<td><div class="d-flex align-items-center">
-								<input type="number" class="form-control input w-25" max="60"
-									min="5" step="5" th:value="${timeInterval}"
-									th:field="*{timeInterval}">&nbsp;<span>分</span>
+								<select class="select w-25 text-center dayOfWeek"
+									th:field="*{timeInterval}">
+									<option value="5">5</option>
+									<option value="15">15</option>
+									<option value="30">30</option>
+									<option value="60">60</option>
+								</select> &nbsp;<span>分</span>
 							</div></td>
 						<td>
 							<div class="d-flex align-items-center">
@@ -75,7 +79,7 @@
 
 		</form>
 
-		<div class="mx-auto w-25 text-center mt-5">
+		<div class="mx-auto w-25 text-center my-5">
 			<a th:href="@{/}">トップページに戻る</a>
 		</div>
 	</main>

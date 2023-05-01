@@ -22,7 +22,7 @@
 						th:errorclass="is-invalid" onchange="getAvailableTimes()">
 						<option value="" id="default">日付を選択してください</option>
 						<option th:each="reserveDate : ${#session.getAttribute('dates')}"
-							th:text="${#temporals.format(reserveDate, 'yyyy年MM月dd日')}"
+							th:text="${#temporals.format(reserveDate, 'yyyy年MM月dd日')} + '（' + ${#temporals.format(reserveDate, 'E')} + '）'"
 							th:value="${{reserveDate}}"></option>
 					</select>
 					<div class="invalid-feedback" th:error="*{reserveDate}"></div>

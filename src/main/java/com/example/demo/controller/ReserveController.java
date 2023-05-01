@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class ReserveController {
 		Integer timeInterval = (Integer) ApplicationScope.getAttribute("timeInterval");
 		LocalTime startTime = (LocalTime) ApplicationScope.getAttribute("startTime");
 		LocalTime endTime = (LocalTime) ApplicationScope.getAttribute("endTime");
+		DayOfWeek storeHoliday = (DayOfWeek) ApplicationScope.getAttribute("storeHoliday");
 
 		long limit = endTime.getHour() - startTime.getHour(); // startTimeからendTimeの差分
 
@@ -58,18 +60,31 @@ public class ReserveController {
 					.limit(60 / timeInterval)
 					.collect(Collectors.toList()); // 予約時間（分）のリスト
 			allMinutesList.addAll(minutesList);
-			System.out.println("hour: " + hour + ", minutesList: " + minutesList);
 		}
 
-		Calendar calendar = Calendar.getInstance();
+		// Calender型のインスタンスを作成（現在の日時）
+		Calendar calender = Calendar.getInstance();
 		List<LocalDate> dates = new ArrayList<>(); // 予約可能期間のリスト
 
+		// 現在の日時から予約可能期間の分だけdatesリストに日付を追加する
+		// ただし、定休日は追加しない
 		for (int i = 0; i < reservableDate; i++) {
-			dates.add(LocalDateConverter.dateToLocalDate(calendar.getTime()));
-			calendar.add(Calendar.DATE, 1);
+			int calDOW = calender.get(Calendar.DAY_OF_WEEK) - 1;
+
+			if (calDOW == 0) {
+				calDOW = 7;
+			}
+
+			DayOfWeek dow = DayOfWeek.of(calDOW);
+
+			//			曜日が定休日ではない時にのみdatesリストに追加する
+			if (!(dow == storeHoliday)) {
+				dates.add(LocalDateConverter.dateToLocalDate(calender.getTime()));
+			}
+
+			calender.add(Calendar.DATE, 1);
 		}
 
-		System.out.println("allMinutesList: " + allMinutesList);
 		session.setAttribute("hoursList", hoursList);
 		session.setAttribute("minutesList", allMinutesList);
 		session.setAttribute("dates", dates);
