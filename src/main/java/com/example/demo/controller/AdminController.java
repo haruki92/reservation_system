@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.config.ApplicationScope;
 import com.example.demo.converter.DayOfWeekConverter;
 import com.example.demo.form.SettingForm;
 import com.example.demo.model.Reserve;
+import com.example.demo.model.User;
+import com.example.demo.repository.ReserveRepository;
+import com.example.demo.service.ReserveService;
 import com.example.demo.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,8 +31,11 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class AdminController {
 
+	private final ReserveRepository reserveRepository;
+
 	@Autowired
 	ShopService shopService;
+	ReserveService reserveService;
 
 	@GetMapping("/setting")
 	public String getSetting(SettingForm settingForm, Model model) {
@@ -119,8 +126,11 @@ public class AdminController {
 	}
 
 	@GetMapping("/details")
-	public String getDetails(Reserve reserve) {
+	public String getDetails(@RequestParam("user_id") User user_id, Model model) {
+		Reserve reserve = (Reserve) reserveRepository.findReserveByUser_id(user_id.getId()).get();
+		model.addAttribute("user", user_id);
+		model.addAttribute("reserve", reserve);
 
-		return "admin/details";
+		return "admin/reserveDetails";
 	}
 }

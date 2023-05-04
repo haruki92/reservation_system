@@ -148,7 +148,6 @@ a.btn {
 .btn {
 	height: 7vh;
 	font-size: 1.3rem;
-	background-color: #0b1456;
 	border-radius: 9999px;
 }
 
@@ -165,6 +164,10 @@ a.btn {
 
 p {
 	margin: 0;
+}
+
+label {
+	font-weight: bold;
 }
 
 
@@ -193,6 +196,10 @@ td {
 
 
 /* /admin reservationList */
+#reservationList {
+    table-layout: fixed;
+}
+
 #reservationList > tbody > tr {
 	height: 10vh;
 }
@@ -202,11 +209,13 @@ td {
 	text-align: center;
 }
 
+#pagenation {
+	width: 100px;
+}
 
-
-#reservationList > tbody > tr > th:not(:first-of-type),
-#reservationList > tbody > tr > td:not(:first-of-type) {
-	border-left: 1px solid #dee2e6!important;
+#pagenation > span,
+#pagenation > a {
+	margin-right: 5%;
 }
 
 /* setting */

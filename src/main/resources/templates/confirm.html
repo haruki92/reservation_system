@@ -39,7 +39,11 @@
 
 		<form th:action="@{/register}" class="w-50 mx-auto text-center mb-5"
 			method="post">
-			<button type="submit" class="btn btn-primary">この内容で登録する</button>
+			<button type="submit" class="btn btn-primary w-50">この内容で登録する</button>
+			<div class="text-center">
+				<a th:href="@{/register}"
+					class="btn btn-secondary mx-auto my-5 w-50">前の画面に戻る</a>
+			</div>
 		</form>
 	</main>
 </body>

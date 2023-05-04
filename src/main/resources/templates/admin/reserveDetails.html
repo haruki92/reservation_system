@@ -1,0 +1,58 @@
+<!DOCTYPE>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理者専用ページ: 予約詳細画面</title>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="container w-50">
+			<h2 class="text-center my-5">予約詳細画面</h2>
+			<div class="w-50 mx-auto fs-5">
+				<div class="mb-5">
+					<label>日時</label>
+					<p th:text="*{reserve.reserveDate}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">お名前</label>
+					<p th:text="*{user.username}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">性別</label>
+					<p
+						th:text="${T(com.example.demo.util.Type).GENDERS.get(user.gender)}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">メールアドレス</label>
+					<p th:text="*{user.email}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">電話番号（ハイフンなし）</label>
+					<p th:text="*{user.phone}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">業種</label>
+					<p
+						th:text="${T(com.example.demo.util.Job).INDUSTRY.get(user.industry)}"></p>
+				</div>
+				<div class="mb-5">
+					<label class="form-label">年収</label>
+					<p
+						th:text="${T(com.example.demo.util.Income).INCOME.get(user.income)}"></p>
+				</div>
+				<div class="mb-5 border remarks">
+					<label class="form-label">備考欄</label>
+					<p th:text="*{reserve.remarks}"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="mx-auto w-25 text-center my-5">
+			<a th:href="@{/}" class="btn btn-secondary w-50">一覧に戻る</a>
+		</div>
+	</main>
+</body>
+</html>

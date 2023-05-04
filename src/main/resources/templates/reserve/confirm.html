@@ -28,7 +28,11 @@
 			</table>
 			<form th:action="@{/reserve/complete}" method="post"
 				th:object="${reserve}" class="text-center mb-5">
-				<button type="submit" class="btn btn-primary">予約を確定する</button>
+				<button type="submit" class="btn btn-primary w-50 mb-5">予約を確定する</button>
+				<div class="text-center">
+					<a th:href="@{/reserve}"
+						class="btn btn-secondary mx-auto mb-5 w-50">前の画面に戻る</a>
+				</div>
 			</form>
 		</div>
 	</main>

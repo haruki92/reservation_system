@@ -14,10 +14,10 @@ import com.example.demo.model.Reserve;
 @Repository
 public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 	/**
-	 * ユーザIDを条件に予約情報を取得する
+	 * ユーザIDを条件にdeleteFlagが0の予約情報を取得する
 	 * @param ユーザID
 	 */
-	@Query("SELECT r FROM Reserve r WHERE r.user_id.id = ?1")
+	@Query("SELECT r FROM Reserve r WHERE r.user_id.id = ?1 AND r.deleteFlag = 0")
 	Optional<Reserve> findReserveByUser_id(int id);
 
 	/**

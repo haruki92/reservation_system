@@ -75,13 +75,8 @@ public class ApiController {
 			@RequestParam(value = "month") int month) {
 		LocalDate startDate = LocalDate.of(year, month, 1);
 		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-		System.out.println(startDate + "-" + endDate);
 
 		List<Reserve> reservationList = reserveRepository.findByReserveDateBetween(startDate, endDate);
-
-		for (Reserve reserve : reservationList) {
-			System.out.println(reserve.getUser_id().getUsername());
-		}
 
 		return reservationList;
 
